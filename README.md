@@ -15,8 +15,8 @@ Este projeto é um agente inteligente que interage com o Google Calendar, permit
 - Google Calendar API ([documentação](https://developers.google.com/workspace/calendar/api/quickstart/python?hl=pt-br))
 - Bibliotecas: google-api-python-client, chainlit, langgraph, entre outras.
 
-# Tutorial no Youtube:
-- Para entender como funciona essa aplicação acessa ao tutorial do YouTube: 
+# Tutorial no Youtube (Uso e Configuração):
+- Para entender como funciona essa aplicação acessa ao tutorial do YouTube: https://youtu.be/p4wm6UE2kas
 
 ### Instalação
 
@@ -55,7 +55,5 @@ Este projeto é um agente inteligente que interage com o Google Calendar, permit
    ```
    chainlit run app.py -w
    ```
-
-
 # Observações:
 - excalidraw_files: deixei o arquivo do excalidraw com o diagrama apresentado no vídeo.
