@@ -2,7 +2,7 @@ from datetime import datetime
 from google_api import create_service
 
 
-CLIENT_SECRET_FILE = r"COLOCAR O CAMINHO DO JSON AQUI"
+CLIENT_SECRET_FILE = r"client_secret_1046410091087-c01jjcho4deuaoblpq3lhq367cga2ifj.apps.googleusercontent.com.json"
 API_NAME = 'calendar'
 API_VERSION = 'v3'
 SCOPES = ['https://www.googleapis.com/auth/calendar']

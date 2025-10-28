@@ -1,8 +1,6 @@
 from dotenv import load_dotenv
-load_dotenv()
 
-from calendar_tool import criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool, \
-    criar_evento_programado_tool, excluir_evento_tool, atualizar_evento_tool
+from calendar_tool import criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool, criar_evento_programado_tool, excluir_evento_tool, atualizar_evento_tool
 
 from datetime import datetime, timedelta, timezone
 
@@ -10,9 +8,11 @@ from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 
 import sqlite3
+from langgraph.checkpoint.sqlite import SqliteSaver
 
 from langchain_groq import ChatGroq
 
+load_dotenv()
 
 llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0)
 
@@ -32,7 +32,7 @@ no perfil e nas preferências do usuário.
 
 # Contexto:
 ## Detalhes do usuário:
-- Nome: Gustavo, mas pode chamá-lo apenas de Gu!
+- Nome: Seu nome é Felipe, mas pode chamá-lo apenas de Felps!
 - Perfil: Atua como engenheiro eletricista e também com desenvolvimento de soluções inteligêntes utilizando \
 analise de dados e IA.
 - Horário preferido para trabalhar: 9h às 18h. Normalmente as 18hrs até as 20h ele está na academia ou tem aula de \
@@ -55,32 +55,34 @@ for conveniente, sugira melhor horário para alocar a tarefa.
 
 
 conexao = sqlite3.connect("db.sqlite", check_same_thread=False)
-# memory  = SqliteSaver(conexao)
+memory = SqliteSaver(conexao)
+
 
 
 google_calendar_tools = [criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool,
                          criar_evento_programado_tool, excluir_evento_tool, atualizar_evento_tool]
 
 
-agente_google_calendar = create_agent(model = llm,
-                                            tools = google_calendar_tools,
-                                            checkpointer=memory,
-                                            prompt=prompt_sys
-                                            )
+agente_google_calendar = create_agent(
+    model=llm,
+    tools=google_calendar_tools,
+    system_prompt=prompt_sys,
+    checkpointer=memory,
+)
 
 
-# if __name__ == "__main__":
+#if __name__ == "__main__":
+
+#   def print_stream(stream):
+#        for s in stream:
+#            message = s["messages"][-1]
+#            message.pretty_print()
 #
-#     def print_stream(stream):
-#         for s in stream:
-#             message = s["messages"][-1]
-#             message.pretty_print()
+#    config = {"configurable": {"thread_id": "1"}}
 #
-#     config = {"configurable": {"thread_id": "1"}}
-#
-#     while True:
-#         entrada_escrita_usuario = input("\nEntrada Usuário (digite 'q' para parar.): ")
-#
-#         if entrada_escrita_usuario.lower() == "q":
-#             break
-#         print_stream(agente_google_calendar.stream({"messages": [HumanMessage(content=entrada_escrita_usuario)]}, config=config, stream_mode="values"))
+#    while True:
+#        entrada_escrita_usuario = input("\nEntrada Usuário (digite 'q' para parar.): ")
+# 
+#        if entrada_escrita_usuario.lower() == "q":
+#            break
+#        print_stream(agente_google_calendar.stream({"messages": [HumanMessage(content=entrada_escrita_usuario)]}, config=config, stream_mode="values"))
