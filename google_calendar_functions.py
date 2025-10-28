@@ -92,7 +92,7 @@ def listar_eventos_calendario(
         next_page_token = events_list.get('nextPageToken')
         if not next_page_token:
             break
-    # Process and return the events
+    
     processed_events = []
     for event in all_events:
         processed_event = {
