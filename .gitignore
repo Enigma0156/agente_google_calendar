@@ -1,3 +1,9 @@
+db.sqlite
+client_secret_1046410091087-c01jjcho4deuaoblpq3lhq367cga2ifj.apps.googleusercontent.com.json
+db.sqlite-shm
+db.sqlite-wal
+README.md
+
 # Python-generated files
 __pycache__/
 *.py[oc]
