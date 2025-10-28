@@ -6,24 +6,15 @@ from calendar_tool import criar_calendario_tool, listar_calendarios_tool, listar
 
 from datetime import datetime, timedelta, timezone
 
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 
 import sqlite3
-from langgraph.checkpoint.sqlite import SqliteSaver
 
-# from langchain_groq import ChatGroq
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
-#----------------------------------------
-# CRIANDO UM AGENTE REACT
-# ----------------------------------------
 
-# 1 - Vamos instanciar um modelo LLM que será o coração do nó: "no_chamada_llm"
-# llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0)
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-
-# 2 - Vamos definir um prompt de sistema:
+llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0)
 
 fuso_horario = timezone(timedelta(hours=-3))
 agora = datetime.now(fuso_horario)
@@ -62,16 +53,16 @@ for conveniente, sugira melhor horário para alocar a tarefa.
 - Seja sempre muito gentil.
 """
 
-# 3 - Vamos definir uma memória para nosso grafo. Vamos usar
-conexao = sqlite3.connect("meu_banco_de_dados.sqlite", check_same_thread=False)
-memory  = SqliteSaver(conexao)
 
-#4 Criando nossa lista de tools:
+conexao = sqlite3.connect("db.sqlite", check_same_thread=False)
+# memory  = SqliteSaver(conexao)
+
+
 google_calendar_tools = [criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool,
                          criar_evento_programado_tool, excluir_evento_tool, atualizar_evento_tool]
 
-# Criando nosso agente
-agente_google_calendar = create_react_agent(model = llm,
+
+agente_google_calendar = create_agent(model = llm,
                                             tools = google_calendar_tools,
                                             checkpointer=memory,
                                             prompt=prompt_sys
