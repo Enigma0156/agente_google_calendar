@@ -16,7 +16,7 @@ wheels/
 # Virtual environments
 .venv
 .env
-token files
+token files/
 client_secret.json
 client_secret_novo.json
 meu_grafo.py
