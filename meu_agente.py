@@ -58,6 +58,8 @@ for conveniente, sugira melhor horário para alocar a tarefa.
 DB_URL = os.environ.get("DATABASE_URL")
 if not DB_URL:
     raise ValueError("DATABASE_URL não está definida nas variáveis de ambiente.")
+    
+print("Conectando ao banco de dados Postgres...")
 memory = PostgresSaver.from_conn_string(DB_URL)
 
 google_calendar_tools = [criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool,
