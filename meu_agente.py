@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from calendar_tool import criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool, criar_evento_programado_tool, excluir_evento_tool, atualizar_evento_tool
 from datetime import datetime, timedelta, timezone
-from langchain.agents import create_agent
+from langgraph.prebuilt import create_agent
 from langchain_core.messages import HumanMessage
 import sqlite3
 from langgraph.checkpoint.sqlite import SqliteSaver
