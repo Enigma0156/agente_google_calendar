@@ -15,6 +15,3 @@ python-dotenv>=1.1.0
 fastapi
 uvicorn[standard]
 pydantic
-
-# A DEPENDÊNCIA CORRETA
-langchain_agents
