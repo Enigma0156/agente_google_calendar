@@ -5,14 +5,14 @@ from calendar_tool import criar_calendario_tool, listar_calendarios_tool, listar
 from datetime import datetime, timedelta, timezone
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import HumanMessage
-import sqlite3
-from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.pg import PostgresSaver
 from langchain_groq import ChatGroq
 
 # Importações novas
 import os
 
 load_dotenv()
+
 
 llm = ChatGroq(model="meta-llama/llama-4-scout-17b-16e-instruct", temperature=0)
 
@@ -53,29 +53,12 @@ for conveniente, sugira melhor horário para alocar a tarefa.
 - Seja sempre muito gentil.
 """
 
-# --- MODIFICAÇÃO PARA O RENDER ---
-# No Render, o disco será montado em /var/data (ou outro caminho que você definir)
-# Localmente, usará o diretório atual.
-# A variável 'RENDER' é definida automaticamente pelo Render.
-if os.environ.get('RENDER'):
-    # Este é o caminho padrão para Discos Persistentes no Render
-    RENDER_DISK_PATH = '/var/data' 
-    if not os.path.exists(RENDER_DISK_PATH):
-        # Isso pode acontecer se o disco não for montado
-        print(f"Aviso: Diretório de disco {RENDER_DISK_PATH} não encontrado.")
-        # Como fallback, usa um DB na memória (mas a memória será perdida)
-        DB_PATH = ":memory:"
-    else:
-        DB_PATH = os.path.join(RENDER_DISK_PATH, "db.sqlite")
-else:
-    DB_PATH = "db.sqlite"
 
-print(f"Conectando ao banco de dados SQLite em: {DB_PATH}")
-# ---------------------------------
 
-# conexao = sqlite3.connect("db.sqlite", check_same_thread=False) # Linha Antiga
-conexao = sqlite3.connect(DB_PATH, check_same_thread=False) # Linha Nova
-memory = SqliteSaver(conexao)
+DB_URL = os.environ.get("DATABASE_URL")
+if not DB_URL:
+    raise ValueError("DATABASE_URL não está definida nas variáveis de ambiente.")
+memory = PostgresSaver.from_conn_string(DB_URL)
 
 google_calendar_tools = [criar_calendario_tool, listar_calendarios_tool, listar_eventos_calendario_tool,
                          criar_evento_programado_tool, excluir_evento_tool, atualizar_evento_tool]
