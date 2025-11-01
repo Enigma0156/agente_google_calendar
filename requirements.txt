@@ -1,4 +1,4 @@
-# Dependências principais do seu projeto (baseado no pyproject.toml)
+# Dependências principais do seu projeto
 google-api-python-client>=2.166.0
 google-auth-oauthlib>=1.2.1
 langchain-community>=0.3.21
@@ -11,9 +11,11 @@ langgraph>=0.3.27
 oauth2client>=4.1.3
 python-dotenv>=1.1.0
 
-# Novas dependências para o servidor FastAPI
+# Dependências do Servidor FastAPI
 fastapi
 uvicorn[standard]
 pydantic
-psycopg[binary]
-langgraph-checkpoint-pg
+langchain-agents
+
+psycopg[binary,pool]
+langgraph-checkpoint-postgres

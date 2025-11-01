@@ -5,7 +5,7 @@ from calendar_tool import criar_calendario_tool, listar_calendarios_tool, listar
 from datetime import datetime, timedelta, timezone
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import HumanMessage
-from langgraph.checkpoint.pg import PostgresSaver
+from langgraph.checkpoint.postgres import PostgresSaver
 from langchain_groq import ChatGroq
 
 # Importações novas
